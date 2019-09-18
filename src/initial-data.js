@@ -1,10 +1,40 @@
+const {
+    Stitch,
+    RemoteMongoClient,
+    AnonymousCredential
+} = require('mongodb-stitch-browser-sdk');
+
+const client = Stitch.initializeDefaultAppClient('kid_jira-vuftc');
+
+const db = client.getServiceClient(RemoteMongoClient.factory, 'mongodb-atlas').db('tasks');
+
+const fetchData = () => client.auth.loginWithCredential(new AnonymousCredential()).then(() => db.collection('items').find({}, { limit: 100}).toArray().then(val => val)).then(docs => { 
+    console.log("Found docs", docs)
+    console.log("[MongoDB Stitch] Connected to Stitch")
+  let tasks = docs.reduce((acc, curr) => {
+    acc[curr.id] = curr
+    return acc
+  }, {})
+  console.log('mapped tasks', tasks)
+  return tasks
+}
+).catch(err => {
+    console.error(err)
+});
+
+export async function stitchFetch() {
+  const tasks =  await fetchData()
+  console.log('fetched tasks', tasks)
+  return tasks
+}
+
 const initialData = {
-  tasks: {
+ tasks: {
     "task-1": { id: "task-1", content: "Take out the garbage" },
     "task-2": { id: "task-2", content: "Watch my favorite show" },
     "task-3": { id: "task-3", content: "Charge my phone" },
     "task-4": { id: "task-4", content: "Cook dinner" }
-  },
+  },  
   columns: {
     "column-1": {
       id: "column-1",

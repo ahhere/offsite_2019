@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import "@atlaskit/css-reset";
 import styled from "styled-components";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import initialData from "./initial-data";
+import initialData, {stitchFetch} from "./initial-data";
 import Column from "./column";
 
 import {
@@ -27,6 +27,12 @@ class InnerList extends React.PureComponent {
 
 class App extends React.Component {
   state = initialData;
+
+  async componentDidMount() {
+    let tasks = await stitchFetch()
+    console.log('tasks in setState', tasks)
+    this.setState({...this.state, tasks})
+  }
 
   onDragStart = (start, provided) => {
     provided.announce(
