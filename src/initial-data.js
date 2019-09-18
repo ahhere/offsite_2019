@@ -8,7 +8,7 @@ const client = Stitch.initializeDefaultAppClient('kid_jira-vuftc');
 
 const db = client.getServiceClient(RemoteMongoClient.factory, 'mongodb-atlas').db('tasks');
 
-const fetchData = () => client.auth.loginWithCredential(new AnonymousCredential()).then(() => db.collection('items').find({}, { limit: 100}).toArray().then(val => val)).then(docs => { 
+const fetchTaskData = () => client.auth.loginWithCredential(new AnonymousCredential()).then(() => db.collection('items').find({}, { limit: 100}).toArray().then(val => val)).then(docs => { 
     console.log("Found docs", docs)
     console.log("[MongoDB Stitch] Connected to Stitch")
   let tasks = docs.reduce((acc, curr) => {
@@ -22,10 +22,30 @@ const fetchData = () => client.auth.loginWithCredential(new AnonymousCredential(
     console.error(err)
 });
 
-export async function stitchFetch() {
-  const tasks =  await fetchData()
+export async function stitchTaskFetch() {
+  const tasks =  await fetchTaskData()
   console.log('fetched tasks', tasks)
   return tasks
+}
+
+const fetchColumnData = () => client.auth.loginWithCredential(new AnonymousCredential()).then(() => db.collection('columns').find({}, { limit: 100}).toArray().then(val => val)).then(docs => {
+    console.log("Found docs", docs)
+    console.log("[MongoDB Stitch] Connected to Stitch")
+  let columns = docs.reduce((acc, curr) => {
+    acc[curr.id] = curr
+    return acc
+  }, {})
+  console.log('mapped columns', columns)
+  return columns
+}
+).catch(err => {
+    console.error(err)
+});
+
+export async function stitchColumnFetch() {
+  const columns =  await fetchColumnData()
+  console.log('fetched columns', columns)
+  return columns
 }
 
 const initialData = {
