@@ -3,13 +3,14 @@ import ReactDOM from "react-dom";
 import "@atlaskit/css-reset";
 import styled from "styled-components";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import initialData, {stitchTaskFetch, stitchColumnFetch} from "./initial-data";
+import { initialData, client, db, stitchTaskFetch, stitchColumnFetch} from "./initial-data";
 import Column from "./column";
 
 import {
   Stitch,
   AnonymousCredential,
   RemoteMongoClient,
+  RemoteMongoCollection,
   BSON
 } from "mongodb-stitch-browser-sdk";
 
@@ -136,7 +137,15 @@ class App extends React.Component {
         [newForeign.id]: newForeign
       }
     };
-    console.log(newState)
+    // console.log(Object.keys(newState.columns))
+    const column_keys = Object.keys(newState.columns)
+    for (const key of column_keys) {
+      console.log("Updating columns doc for ", newState.columns[key])
+      client.auth.loginWithCredential(new AnonymousCredential()).then(db.collection('columns').updateOne({_id: newState.columns[key]._id}, 
+        {$set:{taskIds: newState.columns[key].taskIds}})).catch(err => {
+      console.error(err)
+     });
+   }
     this.setState(newState);
   };
 

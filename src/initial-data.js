@@ -1,6 +1,7 @@
 const {
     Stitch,
     RemoteMongoClient,
+    RemoteMongoCollection,
     AnonymousCredential
 } = require('mongodb-stitch-browser-sdk');
 
@@ -76,4 +77,4 @@ const initialData = {
   columnOrder: ["column-1", "column-2", "column-3"]
 };
 
-export default initialData;
+export { initialData, db, client }
