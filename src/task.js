@@ -18,7 +18,7 @@ export default class Task extends React.Component {
   }
 
   sayHello() {
-    alert('Hello!');
+    window.open('https://jira.mongodb.com/', '_blank')
   }
 
   render() {
