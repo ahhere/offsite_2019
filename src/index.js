@@ -30,15 +30,11 @@ class App extends React.Component {
   state = initialData;
 
   async componentDidMount() {
-    let tasks = await stitchTaskFetch()
-    console.log('tasks in setState', tasks)
-    this.setState({...this.state, tasks})
-  }
-
-  async componentDidMount() {
-    let columns = await stitchColumnFetch()
-    console.log('columns in setState', columns)
-    this.setState({...this.state, columns})
+    let tasks = await stitchTaskFetch();
+    let columns = await stitchColumnFetch();
+    console.log("tasks in setState", tasks);
+    console.log("columns in setState", columns);
+    this.setState({ ...this.state, tasks, columns });
   }
 
   onDragStart = (start, provided) => {
@@ -146,6 +142,7 @@ class App extends React.Component {
       console.error(err)
      });
    }
+    console.log(newState);
     this.setState(newState);
   };
 
