@@ -3,7 +3,10 @@ import ReactDOM from "react-dom";
 import "@atlaskit/css-reset";
 import styled from "styled-components";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import initialData, {stitchTaskFetch, stitchColumnFetch} from "./initial-data";
+import initialData, {
+  stitchTaskFetch,
+  stitchColumnFetch
+} from "./initial-data";
 import Column from "./column";
 
 import {
@@ -29,15 +32,11 @@ class App extends React.Component {
   state = initialData;
 
   async componentDidMount() {
-    let tasks = await stitchTaskFetch()
-    console.log('tasks in setState', tasks)
-    this.setState({...this.state, tasks})
-  }
-
-  async componentDidMount() {
-    let columns = await stitchColumnFetch()
-    console.log('columns in setState', columns)
-    this.setState({...this.state, columns})
+    let tasks = await stitchTaskFetch();
+    let columns = await stitchColumnFetch();
+    console.log("tasks in setState", tasks);
+    console.log("columns in setState", columns);
+    this.setState({ ...this.state, tasks, columns });
   }
 
   onDragStart = (start, provided) => {
@@ -136,7 +135,7 @@ class App extends React.Component {
         [newForeign.id]: newForeign
       }
     };
-    console.log(newState)
+    console.log(newState);
     this.setState(newState);
   };
 
