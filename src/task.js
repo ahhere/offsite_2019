@@ -11,6 +11,16 @@ const Container = styled.div`
 `;
 
 export default class Task extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.sayHello = this.sayHello.bind(this);
+  }
+
+  sayHello() {
+    alert('Hello!');
+  }
+
   render() {
     return (
       <Draggable draggableId={this.props.task.id} index={this.props.index}>
@@ -22,7 +32,9 @@ export default class Task extends React.Component {
             isDragging={snapshot.isDragging}
             aria-roledescription="Press space bar to lift the task"
           >
-            {this.props.task.content}
+            <button onClick={this.sayHello}>
+            {this.props.task.content} - {this.props.task.jira_ticket}
+             </button>
           </Container>
         )}
       </Draggable>
