@@ -14,11 +14,13 @@ export default class Task extends React.Component {
 
   constructor(props) {
     super(props);
-    this.sayHello = this.sayHello.bind(this);
+    this.openJira = this.openJira.bind(this);
   }
 
-  sayHello() {
-    window.open('https://jira.mongodb.com/', '_blank')
+  openJira() {
+    var jiraUrl='https://jira.mongodb.com/';
+    var ticket = this.props.task.jira_ticket
+    window.open(jiraUrl+ticket, '_blank')
   }
 
   render() {
@@ -32,7 +34,7 @@ export default class Task extends React.Component {
             isDragging={snapshot.isDragging}
             aria-roledescription="Press space bar to lift the task"
           >
-            <button onClick={this.sayHello}>
+            <button onClick={this.openJira}>
             {this.props.task.content} - {this.props.task.jira_ticket}
              </button>
           </Container>
