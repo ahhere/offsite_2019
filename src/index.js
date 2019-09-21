@@ -3,7 +3,12 @@ import ReactDOM from "react-dom";
 import "@atlaskit/css-reset";
 import styled from "styled-components";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import { initialData, client, db, stitchTaskFetch, stitchColumnFetch} from "./initial-data";
+import { initialData,
+  client, 
+  db,
+  stitchTaskFetch,
+  stitchColumnFetch
+} from "./initial-data";
 import Column from "./column";
 
 import {
